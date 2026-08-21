@@ -1,4 +1,27 @@
 # BPF_Fuzzy_Fredholm
+ساختار مخزن (Repository)
+LIFFIE-BPF-Solver/
+│
+├── README.md                  ← توضیح فارسی
+├── requirements.txt           ← کتابخانه‌های لازم
+│
+├── code/
+│   ├── section1_base.py       ← سکشن ۱: توابع پایه
+│   ├── section2_examples.py   ← سکشن ۲: حل‌کننده مثال‌ها
+│   ├── section3_errors.py     ← سکشن ۳: محاسبه خطا و نرخ همگرایی
+│   └── section4_main.py       ← سکشن ۴: ذخیره‌سازی و اجرا
+│
+├── outputs/
+│   ├── example1_tables.xlsx
+│   ├── example2_tables.xlsx
+│   ├── example3_tables.xlsx
+│   ├── example1_convergence.png
+│   ├── example2_convergence.png
+│   ├── example3_convergence.png
+│   └── all_examples_convergence.png
+│
+└── docs/
+    └── usage_fa.md            ← راهنمای استفاده فارسی
 # حل عددی معادلات انتگرال فردهلم فازی شهودی با توابع بلوک-پالس
 
 این مخزن شامل کدهای پایتون پایان‌نامه کارشناسی ارشد با عنوان «حل عددی معادلات انتگرال فردهلم فازی شهودی با استفاده از توابع بلوک-پالس و تعمیم به حالت غیرخطی» است.
@@ -30,3 +53,128 @@
 
 `bash
 pip install numpy pandas scipy matplotlib openpyxl
+🚀 اجرا
+
+اجرای کامل (هر ۴ سکشن در یک فایل):
+
+bash
+python code/full_solver.py
+
+
+اجرای مثال خاص:
+
+برنامه از شما می‌پرسد کدام مثال را حل کنید:
+
+
+کدام مثال را حل کنم؟
+  ۱: مثال ۱ (خطی، k=ts)
+  ۲: مثال ۲ (خطی، k=t²s)
+  ۳: مثال ۳ (غیرخطی، y²)
+  ۴: هر سه
+انتخاب (۱-۴):
+
+
+---
+
+📂 خروجی‌ها
+
+پس از اجرا، خروجی‌های زیر تولید می‌شوند:
+
+فایل توضیح
+example{1,2,3}_tables.xlsx جداول خطا برای m=8 و m=16
+example{1,2,3}_convergence.png نمودار همگرایی هر مثال
+example{1,2,3}_convergence.pdf نسخه PDF نمودار
+all_examples_convergence.png نمودار ترکیبی هر سه مثال
+all_examples_convergence.pdf نسخه PDF ترکیبی
+
+---
+
+🧮 ساختار کد (۴ سکشن)
+
+سکشن فایل توضیح
+۱ section1_base.py توابع پایه: هسته، ماتریس K، حل خطی، بازسازی
+۲ section2_examples.py حل‌کننده‌های سه مثال
+۳ section3_errors.py محاسبه خطا و نرخ همگرایی
+۴ section4_main.py ذخیره‌سازی، نمودار، برنامه اصلی
+
+---
+
+📊 روش محاسبه خطا
+
+خطای بیشینه با فرمول زیر محاسبه می‌شود:
+
+\text{Max Error} = \max |y_{\text{approx}} - y_{\text{exact}}|
+
+روی ۱۸ نقطه (t = 0, 0.125 و r = 0, 0.125, \ldots, 1) و برای هر ۴ مؤلفه.
+
+---
+
+🎯 نرخ همگرایی
+
+نرخ همگرایی از رابطه زیر به دست می‌آید:
+
+\text{Rate} = \frac{\log(e_1/e_2)}{\log(m_2/m_1)}
+
+---
+
+📚 منابع
+
+· Ghazanfari, B. (2025). NIFS, 31(1), 99–110.
+· Zadeh, L. A. (1965). Information and Control, 8, 338–353.
+· Atanassov, K. (1986). Fuzzy Sets and Systems, 20(1), 87–96.
+
+---
+
+📝 مجوز
+
+این پروژه برای اهداف آموزشی و پژوهشی منتشر شده است.
+
+
+
+---
+
+# requirements.txt
+
+
+
+numpy>=1.21
+pandas>=1.3
+scipy>=1.7
+matplotlib>=3.4
+openpyxl>=3.0
+
+
+
+---
+
+# docs/usage_fa.md
+
+
+markdown
+# راهنمای استفاده
+
+## گام ۱: نصب
+
+در ترمینال:
+
+bash
+pip install numpy pandas scipy matplotlib openpyxl
+
+
+گام ۲: کپی کد
+
+هر ۴ سکشن را به ترتیب در یک فایل full_solver.py کپی کنید.
+
+گام ۳: اجرا
+
+bash
+python full_solver.py
+
+
+گام ۴: انتخاب مثال
+
+برنامه از شما می‌پرسد کدام مثال حل شود. عدد ۱ تا ۴ را وارد کنید.
+
+گام ۵: دریافت خروجی
+
+فایل‌های Excel و PNG/PDF در همان پوشه ذخیره می‌شوند.
