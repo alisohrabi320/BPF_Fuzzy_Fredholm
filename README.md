@@ -2,26 +2,32 @@
 ساختار مخزن (Repository)
 LIFFIE-BPF-Solver/
 │
-├── README.md                  ← توضیح فارسی
-├── requirements.txt           ← کتابخانه‌های لازم
+├── README.md                       ← توضیح فارسی پروژه
+├── requirements.txt                ← پیش‌نیازهای پایتون
+├── LICENSE                         ← مجوز (اختیاری)
 │
 ├── code/
-│   ├── section1_base.py       ← سکشن ۱: توابع پایه
-│   ├── section2_examples.py   ← سکشن ۲: حل‌کننده مثال‌ها
-│   ├── section3_errors.py     ← سکشن ۳: محاسبه خطا و نرخ همگرایی
-│   └── section4_main.py       ← سکشن ۴: ذخیره‌سازی و اجرا
+│   ├── full_solver.py              ← کد کامل (۶ سکشن)
+│   ├── section1_base.py            ← سکشن ۱: توابع پایه
+│   ├── section2_examples.py        ← سکشن ۲: حل‌کننده مثال‌ها
+│   ├── section3_errors.py          ← سکشن ۳: محاسبه خطاها
+│   ├── section4_convergence.py     ← سکشن ۴: نرخ همگرایی
+│   ├── section5_analysis.py        ← سکشن ۵: مقایسه و کنترل
+│   └── section6_plots.py           ← سکشن ۶: نمودار و main
 │
 ├── outputs/
 │   ├── example1_tables.xlsx
 │   ├── example2_tables.xlsx
 │   ├── example3_tables.xlsx
-│   ├── example1_convergence.png
-│   ├── example2_convergence.png
-│   ├── example3_convergence.png
-│   └── all_examples_convergence.png
+│   ├── all_examples_convergence.png
+│   ├── all_examples_convergence.pdf
+│   ├── center_cell_convergence.png
+│   ├── center_cell_convergence.pdf
+│   └── final_report.txt
 │
 └── docs/
-    └── usage_fa.md            ← راهنمای استفاده فارسی
+    ├── usage_fa.md                 ← راهنمای فارسی
+    └── algorithm_description.md    ← توضیح الگوریتم‌ها
 # حل عددی معادلات انتگرال فردهلم فازی شهودی با توابع بلوک-پالس
 
 این مخزن شامل کدهای پایتون پایان‌نامه کارشناسی ارشد با عنوان «حل عددی معادلات انتگرال فردهلم فازی شهودی با استفاده از توابع بلوک-پالس و تعمیم به حالت غیرخطی» است.
@@ -89,13 +95,44 @@ all_examples_convergence.pdf نسخه PDF ترکیبی
 
 ---
 
-🧮 ساختار کد (۴ سکشن)
+🧮 ساختار کد 
 
 سکشن فایل توضیح
-۱ section1_base.py توابع پایه: هسته، ماتریس K، حل خطی، بازسازی
-۲ section2_examples.py حل‌کننده‌های سه مثال
-۳ section3_errors.py محاسبه خطا و نرخ همگرایی
-۴ section4_main.py ذخیره‌سازی، نمودار، برنامه اصلی
+full_solver.py
+│
+├── سکشن ۱: ایمپورت و توابع پایه BPF
+│   ├── import numpy, pandas, scipy, matplotlib
+│   ├── kernel_ts()          → هسته k(t,s) = ts
+│   ├── kernel_t2s()         → هسته k(t,s) = t²s
+│   ├── compute_K_matrix()   → ساخت ماتریس K با انتگرال دوگانه
+│   ├── solve_linear()       → حل دستگاه خطی + قانون ضرب فازی
+│   └── reconstruct()        → بازسازی جواب از ماتریس Y
+│
+├── سکشن ۲: حل‌کننده‌های سه مثال
+│   ├── solve_example1()     → مثال ۱ (خطی، k=ts)
+│   ├── solve_example2()     → مثال ۲ (خطی، k=t²s)
+│   ├── g()                  → تابع غیرخطی g(y) = y²
+│   └── solve_example3()     → مثال ۳ (غیرخطی، تکرار نقطه ثابت)
+│
+├── سکشن ۳: محاسبه خطاها
+│   ├── make_table()         → ساخت جدول خطا برای هر t
+│   ├── compute_max_error()  → خطای Full-Grid
+│   └── compute_center_error() → خطای Center-Cell
+│
+├── سکشن ۴: همگرایی و نرخ‌ها
+│   ├── run_example()        → اجرای یک مثال و جمع‌آوری خطاها
+│   ├── compute_rate()       → نرخ همگرایی Full-Grid
+│   └── compute_center_convergence() → نرخ Center-Cell
+│
+├── سکشن ۵: جدول مقایسه و کنترل خودکار
+│   ├── analyze_all_errors() → مقایسه Full-Grid و Center-Cell
+│   └── automatic_checks()   → بررسی کاهش خطا و منطقی بودن نرخ
+│
+└── سکشن ۶: رسم نمودارها و اجرا
+    ├── plot_convergence_all() → نمودار ترکیبی log-log
+    ├── plot_center_convergence() → نمودار Center-Cell
+    ├── save_report()          → ذخیره گزارش نهایی
+    └── main()                 → اجرای همه مراحل
 
 ---
 
